@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Number from "./Number"
+import { Form, Input } from "./Input";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface IState {
+  counter: number;
+  name: string;
+}
+
+// you need to tell component <'props', 'state'>
+class App extends Component<{}, IState> {
+  state = {
+    counter: 0,
+    name: ""
+  }
+
+  add = ():void => {
+    this.setState(prev => {
+      return {
+        counter: prev.counter + 1
+      };
+    });
+  }
+
+  onChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
+    console.log(event.target);
+  }
+
+  onFormSubmmit = (event: React.FormEvent) => {
+    event.preventDefault()
+  }
+
+  render() {
+    const { counter, name } = this.state 
+    return (
+      <div>
+        <Number count={ counter }/>
+        <button onClick={ this.add }>Add</button>
+        <Form onFormSubmit={ this.onFormSubmmit } >
+          <Input value={ name } onChange={ this.onChange } />
+        </Form>
+      </div>
+    )
+  }
+  
 }
 
 export default App;
